@@ -1,19 +1,21 @@
 import pygame
 import requests
-from time import sleep
 
 #http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.rewind
 
 def player(url):
     pygame.mixer.init()
-    r = requests.get(url, stream=True)
+    r = requests.get(url, stream=True) #get the file
     pygame.mixer.music.load(r.raw)
     pygame.mixer.music.play()
+    clock = pygame.time.Clock() #macke a clock
 
-    while pygame.mixer.music.get_busy():
-        sleep(1)
+    while pygame.mixer.music.get_busy(): #check if music is playing
+        clock.tick(1)
 
-test_url = 'http://media.rbb-online.de/frz/jingles/2010/Fritz_Augentinitus.mp3'
+    pygame.quit()
+
+test_url = 'http://media.rbb-online.de/frz/jingles/Fritz_Autokauf.MP3'
 
 if __name__ == "__main__":
     player(test_url)

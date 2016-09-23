@@ -15,7 +15,7 @@ def scrapy():
     for name in soup.find_all("span", {"class": "manualteasertitle"}):
         thetext.append (name.text)
     thetext.pop(0) #der erste eintrag wird entfernt da er nicht benötigt wird
-    nu = 26
+    nu = 28
     print(thetext[nu])
     print(theLink[nu])
 
