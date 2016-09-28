@@ -15,9 +15,12 @@ def scrapy():
 
     for name in soup.find_all("span", {"class": "manualteasertitle"}): #sucht den zur datei gehörigen namen raus
         thetext.append (name.text)
-    thetext.pop(0) #der erste eintrag wird entfernt da er nicht benötigt wird
-    nu = 28
-    print(thetext[nu])
-    print(theLink[nu])
+    for x in range(5):
+        thetext.pop(0)
+    for x in range(4):
+        theLink.pop(0)
 
-scrapy()
+    return thetext, theLink
+
+if __name__ == "__main__":
+    scrapy()

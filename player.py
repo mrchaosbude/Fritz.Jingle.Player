@@ -1,21 +1,26 @@
-import pygame
+import pygame.mixer as mix
 import requests
 
 #http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.rewind
+mix.init()
 
-def player(url):
-    pygame.mixer.init()
+def play(url):
     r = requests.get(url, stream=True) #get the file
-    pygame.mixer.music.load(r.raw)
-    pygame.mixer.music.play()
-    clock = pygame.time.Clock() #macke a clock
+    mix.music.load(r.raw)
+    mix.music.play()
 
-    while pygame.mixer.music.get_busy(): #check if music is playing
-        clock.tick(1)
+    #clock = pygame.time.Clock() #macke a clock
 
-    pygame.quit()
+    #while pygame.mixer.music.get_busy(): #check if music is playing
+        #clock.tick(10)
+
+    #pygame.quit()
+
+
+def stop():
+    mix.music.stop()
 
 test_url = 'http://media.rbb-online.de/frz/jingles/Fritz_Autokauf.MP3'
 
 if __name__ == "__main__":
-    player(test_url)
+    play(test_url)
