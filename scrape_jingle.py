@@ -1,4 +1,4 @@
-import urllib
+#import urllib
 import urllib.request
 from  bs4 import BeautifulSoup
 
@@ -17,6 +17,10 @@ def scrapy():
         thetext.append (name.text)
     for x in range(5):
         thetext.pop(0)
+
+    for x in range(3):
+        thetext.pop(-1)
+
     for x in range(4):
         theLink.pop(0)
 

@@ -3,10 +3,8 @@ import tkinter as tk
 import scrape_jingle
 import player
 from threading import Thread
-jingletext, jinglelink = scrape_jingle.scrapy()
 
-def test_play():
-    player.play("http://media.rbb-online.de/frz/jingles/Fritz_90JahreRadio_01_(Gratulation).MP3")
+jingletext, jinglelink = scrape_jingle.scrapy()
 
 def start_play():
     """
@@ -54,9 +52,6 @@ stop.grid(row=2, column=1)
 
 quit = tk.Button(root, text='Quit', width=20, command=root.destroy)
 quit.grid(row=2, column=2)
-
-play = tk.Button(root, text='Play', width=20, command=test_play())
-play.grid(row=3, column=0)
 
 
 for item in jingletext:
