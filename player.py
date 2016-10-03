@@ -1,13 +1,14 @@
 import os
-
+import wget
+import pygame
 import pygame.mixer as mix
 import requests
-import io
-import pygame
 
-#http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.rewind
-mix.init()
-clock = pygame.time.Clock()
+#http://www.pygame.org/docs/ref/music.html #pygame.mixer.music.rewind
+
+def __dummy_create(path):
+    with open(path, 'a'):
+        os.utime(path, None)
 
 def __play_stream(url):
     print(url)
@@ -15,14 +16,7 @@ def __play_stream(url):
     mix.music.load(r.raw)
     mix.music.play()
 
-    #clock = pygame.time.Clock() #macke a clock
-
-    #while pygame.mixer.music.get_busy(): #check if music is playing
-        #clock.tick(10)
-
-    #pygame.quit()
-
-def __play_download(url):
+def __play_download(url): #tut nicht wie es soll
     global local_filename
     local_filename = url.split('/')[-1]
     # NOTE the stream=True parameter
@@ -31,24 +25,53 @@ def __play_download(url):
         for chunk in r.iter_content(chunk_size=1024):
             if chunk: # filter out keep-alive new chunks
                 f.write(chunk)
-                f.flush()# commented by recommendation from J.F.Sebastian
+
+    r.close()
 
     mix.music.load(local_filename)
     mix.music.play()
-    #return local_filename
+    #return local_filename # tuht #
+
+def __play_download2(url):
+    global local_filename
+    local_filename = url.split('/')[-1]
+
+    try: ## erstellt tmp wenn nicht vorhanden
+        os.makedirs("./tmp")
+    except OSError:
+        pass
+
+    retval = os.getcwd() + "/tmp" #aktueller pfad + tmp
+    os.chdir(retval) #wechsel in tmp
+    wget.download(url)
+    mix.music.load(local_filename)
+    mix.music.play()
+    os.chdir(os.pardir)
+
 
 def play(url):
+    mix.init()
     try:
         __play_stream(url)
+        print("Play Stram")
     except:
-        __play_download(url)
+        print("Play Download")
+        __play_download2(url)
+
+def set_vol(vol=1.0):
+    mix.music.set_volume(vol)
+
+def get_vol():
+    return mix.music.get_volume()
 
 
 def stop():
     mix.music.stop()
+    mix.quit()
+    pygame.quit()
 
 test_url = 'http://media.rbb-online.de/frz/jingles/Fritz_Autokauf.MP3'
-test_url = "http://media.rbb-online.de/frz/jingles/Fritz_90JahreRadio_01_(Gratulation).MP3"
+test_url2 = "http://media.rbb-online.de/frz/jingles/Fritz_90JahreRadio_01_(Gratulation).MP3"
 
 if __name__ == "__main__":
     play(test_url)

@@ -27,13 +27,13 @@ def start_play_e(event):
 
 
 root = tk.Tk()
-root.title("Cheeses")
+root.title("Fritz Jingle Player")
 # use width x height + x_offset + y_offset (no spaces!)
 #root.geometry("180x300+550+350")
 # create a label (width in characters)
 s = "Click on a cheese"
 label = tk.Label(root, text=s,)
-label.grid(row=0, column=0)
+label.grid(row=0, column=1)
 # create a listbox (height in characters/lines)
 # give it a nice yellow background (bg) color
 listbox = tk.Listbox(root, height=15, width=75, bg='yellow')
