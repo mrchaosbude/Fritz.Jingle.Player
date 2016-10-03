@@ -2,7 +2,9 @@
 import tkinter as tk
 import scrape_jingle
 import player
-from threading import Thread
+import os
+from tkinter import messagebox
+import shutil
 
 jingletext, jinglelink = scrape_jingle.scrapy()
 
@@ -26,8 +28,18 @@ def start_play_e(event):
     start_play()
 
 
+def on_exit():
+    """When you click to exit, this function is called"""
+    if messagebox.askyesno("Exit", "Do you want to quit the application?"):
+        root.destroy()
+        player.stop()
+        shutil.rmtree('./tmp')
+        raise SystemExit
+
+
 root = tk.Tk()
 root.title("Fritz Jingle Player")
+root.protocol("WM_DELETE_WINDOW", on_exit)
 # use width x height + x_offset + y_offset (no spaces!)
 #root.geometry("180x300+550+350")
 # create a label (width in characters)
@@ -50,7 +62,7 @@ play.grid(row=2, column=0)
 stop = tk.Button(root, text='Stop', width=20, command=player.stop)
 stop.grid(row=2, column=1)
 
-quit = tk.Button(root, text='Quit', width=20, command=root.destroy)
+quit = tk.Button(root, text='Quit', width=20, command=on_exit)
 quit.grid(row=2, column=2)
 
 
