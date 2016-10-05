@@ -10,6 +10,15 @@ def __dummy_create(path):
     with open(path, 'a'):
         os.utime(path, None)
 
+def isfile(filepath):
+    """Test whether a path is a regular file"""
+    try:
+        f = open(filepath)
+    except IOError:  # Note OSError is for later versions of python
+        return False
+
+    return True
+
 def __play_stream(url):
     print(url)
     r = requests.get(url, stream=True) #get the file
@@ -43,7 +52,11 @@ def __play_download2(url):
 
     retval = os.getcwd() + "/tmp" #aktueller pfad + tmp
     os.chdir(retval) #wechsel in tmp
-    wget.download(url)
+
+    if isfile(retval + "/" + local_filename) == False:
+        print("file is not"+ retval + "/" + local_filename)
+        wget.download(url)
+
     mix.music.load(local_filename)
     mix.music.play()
     os.chdir(os.pardir)
