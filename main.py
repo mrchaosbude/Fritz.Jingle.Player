@@ -8,6 +8,9 @@ import shutil
 
 jingletext, jinglelink = scrape_jingle.scrapy()
 
+button_row = "3"
+autop_vol_row = "2"
+
 def start_play():
     """
     function to read the listbox selection
@@ -27,13 +30,20 @@ def start_play():
 def start_play_e(event):
     start_play()
 
+def voll_change(vol):
+    vol = int(vol)/100
+    player.vollumen(vol)
+
 
 def on_exit():
     """When you click to exit, this function is called"""
     if messagebox.askyesno("Exit", "Do you want to quit the application?"):
         root.destroy()
         player.stop()
-        shutil.rmtree('./tmp')
+        try:
+            shutil.rmtree('./tmp')
+        except:
+            print("can't delite tmp")
         raise SystemExit
 
 
@@ -56,14 +66,23 @@ yscroll = tk.Scrollbar(command=listbox.yview, orient=tk.VERTICAL)
 yscroll.grid(row=1, column=3, sticky='n' + 's')
 listbox.configure(yscrollcommand=yscroll.set)
 
+ap_check = 0
+auto_play = tk.Checkbutton(root, text="Auto Play", variable=ap_check)
+auto_play.grid(row=autop_vol_row, column=0)
+
+vol_slider = tk.Scale(root, orient="horizontal", length=250, width=20, tickinterval=10,command=voll_change,)
+vol_slider.grid(row=autop_vol_row, column=1, columnspan=2)
+vol_slider.set(75)
+
+
 play = tk.Button(root, text='Play', width=20, command=start_play)
-play.grid(row=2, column=0)
+play.grid(row=button_row, column=0)
 
 stop = tk.Button(root, text='Stop', width=20, command=player.stop)
-stop.grid(row=2, column=1)
+stop.grid(row=button_row, column=1)
 
 quit = tk.Button(root, text='Quit', width=20, command=on_exit)
-quit.grid(row=2, column=2)
+quit.grid(row=button_row, column=2)
 
 
 for item in jingletext:

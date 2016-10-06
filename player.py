@@ -54,7 +54,7 @@ def __play_download2(url):
     os.chdir(retval) #wechsel in tmp
 
     if isfile(retval + "/" + local_filename) == False:
-        print("file is not"+ retval + "/" + local_filename)
+        print("file is not there "+ retval + "/" + local_filename)
         wget.download(url)
 
     mix.music.load(local_filename)
@@ -82,6 +82,13 @@ def stop():
     mix.music.stop()
     mix.quit()
     pygame.quit()
+
+def vollumen(vol):
+    try:
+        pygame.mixer.music.set_volume(vol)
+    except:
+        mix.init()
+        pygame.mixer.music.set_volume(vol)
 
 test_url = 'http://media.rbb-online.de/frz/jingles/Fritz_Autokauf.MP3'
 test_url2 = "http://media.rbb-online.de/frz/jingles/Fritz_90JahreRadio_01_(Gratulation).MP3"
