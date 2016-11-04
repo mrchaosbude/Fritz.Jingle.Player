@@ -7,6 +7,7 @@ from tkinter import messagebox
 import shutil
 
 jingletext, jinglelink = scrape_jingle.scrapy()
+done = False
 
 button_row = "3"
 autop_vol_row = "2"
@@ -49,13 +50,14 @@ def on_exit():
 
 root = tk.Tk()
 root.title("Fritz Jingle Player")
+
 root.protocol("WM_DELETE_WINDOW", on_exit)
 # use width x height + x_offset + y_offset (no spaces!)
 #root.geometry("180x300+550+350")
 # create a label (width in characters)
-s = "Click on a cheese"
+s = "Click on a Song"
 label = tk.Label(root, text=s,)
-label.grid(row=0, column=1)
+label.grid(row=0, column=1,)
 # create a listbox (height in characters/lines)
 # give it a nice yellow background (bg) color
 listbox = tk.Listbox(root, height=15, width=75, bg='yellow')
@@ -67,11 +69,11 @@ yscroll.grid(row=1, column=3, sticky='n' + 's')
 listbox.configure(yscrollcommand=yscroll.set)
 
 ap_check = 0
-auto_play = tk.Checkbutton(root, text="Auto Play", variable=ap_check)
-auto_play.grid(row=autop_vol_row, column=0)
+#auto_play = tk.Checkbutton(root, text="Auto Play", variable=ap_check)
+#auto_play.grid(row=autop_vol_row, column=0)
 
-vol_slider = tk.Scale(root, orient="horizontal", length=250, width=20, tickinterval=10,command=voll_change,)
-vol_slider.grid(row=autop_vol_row, column=1, columnspan=2)
+vol_slider = tk.Scale(root, orient="horizontal", length=250, width=20, tickinterval=10,command=voll_change)
+vol_slider.grid(row=autop_vol_row, column=0, columnspan=3)
 vol_slider.set(75)
 
 
@@ -90,4 +92,6 @@ for item in jingletext:
 
 # use left mouse click on a list item to display selection
 listbox.bind('<Double-Button-1>', start_play_e)
+
 root.mainloop()
+root.resizable(width=False, height=False)
